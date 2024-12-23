@@ -40,7 +40,7 @@ namespace LadderPlugin
             {
                 return this._maxValue;
             }
-
+            //TODO: validation?
             set
             {
                 this._maxValue = value;
@@ -56,7 +56,7 @@ namespace LadderPlugin
             {
                 return this._minValue;
             }
-
+            //TODO: validation?
             set
             {
                 this._minValue = value;

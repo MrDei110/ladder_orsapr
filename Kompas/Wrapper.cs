@@ -38,6 +38,7 @@ namespace Kompas
         /// <param name="perspective">Выбранная плоскость.</param>
         public void CreateSketch(int perspective)
         {
+            //TODO: RSDN
             ksSketchDefinition sketchDef;
             this._sketchEntity = (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_sketch);
             sketchDef = (ksSketchDefinition)this._sketchEntity.GetDefinition();
@@ -66,6 +67,7 @@ namespace Kompas
         /// <param name="count">Количество считываемых строк из массива.</param>
         public void CreateLine(double[,] pointsArray, int start, int count)
         {
+            //TODO: RSDN
             ksDocument2D document2D;
             ksSketchDefinition sketchDef;
             sketchDef = (ksSketchDefinition)this._sketchEntity.GetDefinition();
@@ -156,6 +158,7 @@ namespace Kompas
         /// </summary>
         public void CreateFile()
         {
+            //TODO: RSDN
             ksDocument3D document3D;
             document3D = (ksDocument3D)this._kompas.Document3D();
             document3D.Create();
