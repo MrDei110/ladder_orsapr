@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Builder", "Builder\Builder.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LadderPlugin.UnitTests", "LadderPlugin.UnitTests\LadderPlugin.UnitTests.csproj", "{3A91C401-489D-43CE-BF66-939362B16EBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StressTesting", "StressTesting\StressTesting.csproj", "{E7AAA926-D14A-4ABD-AD7B-050C7C551E91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3A91C401-489D-43CE-BF66-939362B16EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A91C401-489D-43CE-BF66-939362B16EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A91C401-489D-43CE-BF66-939362B16EBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7AAA926-D14A-4ABD-AD7B-050C7C551E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7AAA926-D14A-4ABD-AD7B-050C7C551E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7AAA926-D14A-4ABD-AD7B-050C7C551E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7AAA926-D14A-4ABD-AD7B-050C7C551E91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

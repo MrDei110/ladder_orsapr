@@ -13,9 +13,54 @@ namespace LadderPlugin
     public class Parameters
     {
         /// <summary>
-        /// Поле хранящее в себе текущий параметр.
+        /// Максимальное значение общей высоты.
         /// </summary>
-        private Dictionary<ParameterType, Parameter> _parameter;
+        private const int TOTAL_HEIGHT_MAX_VALUE = 5000;
+
+        /// <summary>
+        /// Минимальное значение общей высоты.
+        /// </summary>
+        private const int TOTAL_HEIGHT_MIN_VALUE = 900;
+
+        /// <summary>
+        /// Максимальное значение количества ступеней.
+        /// </summary>
+        private const int STEPS_AMOUNT_MAX_VALUE = 14;
+
+        /// <summary>
+        /// Минимальное значение количества ступеней.
+        /// </summary>
+        private const int STEPS_AMOUNT_MIN_VALUE = 2;
+
+        /// <summary>
+        /// Максимальное значение толщины профиля.
+        /// </summary>
+        private const int MATERIAL_THICKNESS_MAX_VALUE = 55;
+
+        /// <summary>
+        /// Минимальное значение толщины профиля.
+        /// </summary>
+        private const int MATERIAL_THICKNESS_MIN_VALUE = 30;
+
+        /// <summary>
+        /// Максимальное значение расстояния между ступенями.
+        /// </summary>
+        private const int STEPS_SPACING_MAX_VALUE = 340;
+
+        /// <summary>
+        /// Минимальное значение расстояния между ступенями.
+        /// </summary>
+        private const int STEPS_SPACING_MIN_VALUE = 300;
+
+        /// <summary>
+        /// Максимальное значение ширины ступеней.
+        /// </summary>
+        private const int STEPS_WIDTH_MAX_VALUE = 800;
+
+        /// <summary>
+        /// Минимальное значение ширины ступеней.
+        /// </summary>
+        private const int STEPS_WIDTH_MIN_VALUE = 460;
 
         /// <summary>
         /// Поле хранящее в себе словарь всех параметров.
@@ -25,39 +70,59 @@ namespace LadderPlugin
         /// <summary>
         /// Gets or sets для _parameters.
         /// </summary>
-        public Dictionary<ParameterType, Parameter> AllParameters
+        public  Dictionary<ParameterType, Parameter> AllParameters
         {
             get
             {
                 return this._parameters;
             }
 
-            set
+            private set
             {
                 this._parameters = value;
             }
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Parameters"/> class.
+        /// </summary>
+        public Parameters()
+        {
+            Parameter totalHeight = new Parameter(TOTAL_HEIGHT_MAX_VALUE, TOTAL_HEIGHT_MIN_VALUE);
+            totalHeight.TypeOfParameter = ParameterType.TotalHeight;
+            Parameter stepsAmount = new Parameter(STEPS_AMOUNT_MAX_VALUE, STEPS_AMOUNT_MIN_VALUE);
+            stepsAmount.TypeOfParameter = ParameterType.StepsAmount;
+            Parameter materialThickness = new Parameter(MATERIAL_THICKNESS_MAX_VALUE, MATERIAL_THICKNESS_MIN_VALUE);
+            materialThickness.TypeOfParameter = ParameterType.MaterialThickness;
+            Parameter stepsSpacing = new Parameter(STEPS_SPACING_MAX_VALUE, STEPS_SPACING_MIN_VALUE);
+            stepsSpacing.TypeOfParameter = ParameterType.StepsSpacing;
+            Parameter stepsWidth = new Parameter(STEPS_WIDTH_MAX_VALUE, STEPS_WIDTH_MIN_VALUE);
+            stepsWidth.TypeOfParameter = ParameterType.StepsWidth;
+            this.AllParameters = new Dictionary<ParameterType, Parameter>()
+            {
+                { ParameterType.TotalHeight, totalHeight },
+                { ParameterType.StepsAmount, stepsAmount },
+                { ParameterType.MaterialThickness, materialThickness },
+                { ParameterType.StepsSpacing, stepsSpacing },
+                { ParameterType.StepsWidth, stepsWidth },
+            };
+        }
+
+        /// <summary>
         /// Метод для добавления нового параметра в словарь.
         /// </summary>
-        /// <param name="parameterType">Тип добавляемого параметра.</param>
-        /// <param name="parameter">Параметр.</param>
-        public void SetParameter(ParameterType parameterType, Parameter parameter)
+        /// <param name="parameterType">Тип параметра.</param>
+        /// <param name="value">Значение.</param>
+        public void SetParameter(ParameterType parameterType, int value)
         {
             try
             {
-                this._parameter = new Dictionary<ParameterType, Parameter>()
-                {
-                    { parameterType, parameter },
-                };
-                this.AllParameters.Remove(parameterType);
-                this.AllParameters.Add(parameterType, parameter);
-                this.ValidateParameters();
+                this.AllParameters[parameterType].Value = value;
+                this.ValidateParameters(this.AllParameters[parameterType]);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                throw new ArgumentException(ex.Message);
+                throw ex;
             }
         }
 
@@ -65,117 +130,109 @@ namespace LadderPlugin
         /// Валидация зависимых параметров.
         /// </summary>
         /// <exception cref="ArgumentException">Текст ошибки.</exception>
-        private void ValidateParameters()
+        private void ValidateParameters(Parameter parameter)
         {
-            string exception = string.Empty;
-            ParameterType parameterType = this._parameter.ElementAt(0).Key;
-            Parameter parameter = this._parameter.ElementAt(0).Value;
-            Parameter chainedParameterFirst;
-            Parameter chainedParameterSecond;
-            Parameter chainedParameterThird;
-            switch (parameterType)
+            string message = string.Empty;
+            switch (parameter.TypeOfParameter)
             {
                 case ParameterType.TotalHeight:
-                    if (this.AllParameters.TryGetValue(
-                        ParameterType.StepsAmount,
-                        out chainedParameterFirst) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.StepsSpacing,
-                        out chainedParameterSecond) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.MaterialThickness,
-                        out chainedParameterThird) == true)
+                {
+                    Parameter stepsAmount = this.AllParameters[ParameterType.StepsAmount];
+                    Parameter stepsSpacing = this.AllParameters[ParameterType.StepsSpacing];      
+                    Parameter materialThickness =
+                            this.AllParameters[ParameterType.MaterialThickness];  
+                    if (stepsAmount.Value != 0 &&
+                        stepsSpacing.Value != 0 &&
+                        materialThickness.Value != 0)
                     {
-                        double stepsAmount = chainedParameterFirst.Value;
-                        double stepsSpacing = chainedParameterSecond.Value;
-                        double materialThickness = chainedParameterThird.Value;
-                        double minValue = (stepsAmount + 1) * stepsSpacing + stepsAmount * materialThickness;
-                        if (parameter.Value < minValue)
+                        double minValue =
+                            (stepsAmount.Value + 1) *
+                            stepsSpacing.Value +
+                            stepsAmount.Value *
+                            materialThickness.Value;
+                        if (parameter.Value != minValue)
                         {
-                            exception += "Общая высота лестницы меньше чем сумма её ступеней" +
-                                    ", увеличьте заданное значение минимум до "
+                            message += "Общая высота лестницы меньше чем сумма её ступеней" +
+                                    ", измените заданное значение на "
                                     + minValue.ToString() + '\n';
                         }
                     }
 
                     break;
+                }
+
                 case ParameterType.StepsAmount:
-                    if (this.AllParameters.TryGetValue(
-                        ParameterType.TotalHeight,
-                        out chainedParameterFirst) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.StepsSpacing,
-                        out chainedParameterSecond) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.MaterialThickness,
-                        out chainedParameterThird) == true)
+                {
+                    Parameter stepsSpacing = this.AllParameters[ParameterType.StepsSpacing];      
+                    Parameter materialThickness =
+                        this.AllParameters[ParameterType.MaterialThickness];
+                    Parameter totalHeight = this.AllParameters[ParameterType.TotalHeight];
+                    if (stepsSpacing.Value != 0 &&
+                        materialThickness.Value != 0 &&
+                        totalHeight.Value != 0)
                     {
-                        double totalHeight = chainedParameterFirst.Value;
-                        double stepsSpacing = chainedParameterSecond.Value;
-                        double materialThickness = chainedParameterThird.Value;
-                        double maxValue = (totalHeight - stepsSpacing) / (stepsSpacing + materialThickness);
-                        if (parameter.Value > maxValue)
+                        double maxValue = (totalHeight.Value - stepsSpacing.Value) /
+                            (stepsSpacing.Value + materialThickness.Value);
+                        if (parameter.Value != maxValue)
                         {
-                            exception += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", уменьшите количество ступеней до "
+                            message += "Общая сумма ступеней больше высоты лестницы" +
+                                    ", измените заданное значение на "
                                     + maxValue.ToString() + '\n';
                         }
                     }
 
                     break;
+                }
+
                 case ParameterType.StepsSpacing:
-                    if (this.AllParameters.TryGetValue(
-                        ParameterType.TotalHeight,
-                        out chainedParameterFirst) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.StepsAmount,
-                        out chainedParameterSecond) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.MaterialThickness,
-                        out chainedParameterThird) == true)
+                {
+                    Parameter materialThickness =
+                        this.AllParameters[ParameterType.MaterialThickness];
+                    Parameter totalHeight = this.AllParameters[ParameterType.TotalHeight];
+                    Parameter stepsAmount = this.AllParameters[ParameterType.StepsAmount];
+                    if (materialThickness.Value != 0 &&
+                        totalHeight.Value != 0 &&
+                        stepsAmount.Value != 0)
                     {
-                        double totalHeight = chainedParameterFirst.Value;
-                        double stepsAmount = chainedParameterSecond.Value;
-                        double materialThickness = chainedParameterThird.Value;
-                        double maxValue = (totalHeight - stepsAmount * materialThickness) / (stepsAmount + 1);
-                        if (parameter.Value > maxValue)
+                        double maxValue = (totalHeight.Value - stepsAmount.Value *
+                            materialThickness.Value) / (stepsAmount.Value + 1);
+                        if (parameter.Value != maxValue)
                         {
-                            exception += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", уменьшите пространство между ступенями до "
+                            message += "Общая сумма ступеней больше высоты лестницы" +
+                                    ", измените заданное значение на "
                                     + maxValue.ToString() + '\n';
                         }
                     }
 
                     break;
+                }
+
                 case ParameterType.MaterialThickness:
-                    if (this.AllParameters.TryGetValue(
-                        ParameterType.TotalHeight,
-                        out chainedParameterFirst) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.StepsAmount,
-                        out chainedParameterSecond) == true &&
-                    this.AllParameters.TryGetValue(
-                        ParameterType.StepsSpacing,
-                        out chainedParameterThird) == true)
+                {
+                    Parameter totalHeight = this.AllParameters[ParameterType.TotalHeight];
+                    Parameter stepsAmount = this.AllParameters[ParameterType.StepsAmount];
+                    Parameter stepsSpacing = this.AllParameters[ParameterType.StepsSpacing];  
+                    if (totalHeight.Value != 0 &&
+                        stepsAmount.Value != 0 &&
+                        stepsSpacing.Value != 0)
                     {
-                        double totalHeight = chainedParameterFirst.Value;
-                        double stepsAmount = chainedParameterSecond.Value;
-                        double stepsSpacing = chainedParameterThird.Value;
-                        double maxValue = (totalHeight - (stepsAmount + 1) * stepsSpacing) / stepsAmount;
-                        if (parameter.Value > maxValue)
+                        double maxValue = (totalHeight.Value - (stepsAmount.Value + 1) *
+                            stepsSpacing.Value) / stepsAmount.Value;
+                        if (parameter.Value != maxValue)
                         {
-                            exception += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", уменьшите толщину профиля до  "
+                            message += "Общая сумма ступеней больше высоты лестницы" +
+                                    ", измените заданное значение на  "
                                     + maxValue.ToString() + '\n';
                         }
                     }
 
                     break;
+                }
             }
 
-            if (exception != string.Empty)
+            if (message != string.Empty)
             {
-                throw new ArgumentException(exception);
+                throw new ArgumentException(message);
             }
         }
     }

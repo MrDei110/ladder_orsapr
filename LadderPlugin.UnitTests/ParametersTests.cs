@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using LadderPlugin;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
-namespace ScrewdriverPlugin.UnitTests
+namespace LadderPlugin.UnitTests
 {
     /// <summary>
     /// Класс Unit тестов класса <see cref="Parameters"/>.
@@ -22,32 +21,11 @@ namespace ScrewdriverPlugin.UnitTests
         [Test(Description = "Позитивный тест геттера AllParameters.")]
         public void TestProjectGetParameters()
         {
-            Dictionary<ParameterType, Parameter> expected = new Dictionary<ParameterType,
-                Parameter>()
-            {
-            };
-            this._parameters.AllParameters = new Dictionary<ParameterType, Parameter>()
-            {
-            };
-            var actual = this._parameters;
-            Assert.AreEqual(expected, actual.AllParameters);
-        }
-
-        /// <summary>
-        /// Позитивный тест сеттера AllParameters.
-        /// </summary>
-        [Test(Description = "Позитивный тест сеттера AllParameters.")]
-        public void TestProjectSetParameters()
-        {
-            this._parameters.AllParameters = new Dictionary<ParameterType, Parameter>()
-            {
-            };
             Parameters expected = new Parameters();
-            expected.AllParameters = new Dictionary<ParameterType, Parameter>()
-            {
-            };
             var actual = this._parameters;
-            Assert.AreEqual(expected.AllParameters, actual.AllParameters);
+            Assert.AreEqual(
+                expected.AllParameters[ParameterType.TotalHeight].Value,
+                actual.AllParameters[ParameterType.TotalHeight].Value);
         }
 
         /// <summary>
@@ -56,17 +34,13 @@ namespace ScrewdriverPlugin.UnitTests
         [Test(Description = "Позитивный тест метода SetParameter.")]
         public void TestProjectSetParameter()
         {
-            Parameter parameter = new Parameter();
-            parameter.MaxValue = 20;
-            parameter.MinValue = 10;
-            parameter.Value = 15;
             Parameters expected = new Parameters();
-            this._parameters.AllParameters = new Dictionary<ParameterType, Parameter>();
-            expected.AllParameters = new Dictionary<ParameterType, Parameter>();
-            this._parameters.SetParameter(ParameterType.TotalHeight, parameter);
-            expected.SetParameter(ParameterType.TotalHeight, parameter);
+            this._parameters.SetParameter(ParameterType.StepsAmount, 13);
+            expected.SetParameter(ParameterType.StepsAmount, 13);
             var actual = this._parameters;
-            Assert.AreEqual(expected.AllParameters, actual.AllParameters);
+            Assert.AreEqual(
+                expected.AllParameters[ParameterType.StepsAmount].Value,
+                actual.AllParameters[ParameterType.StepsAmount].Value);
         }
 
         /// <summary>
@@ -100,29 +74,13 @@ namespace ScrewdriverPlugin.UnitTests
             int wrongArgument,
             string message)
         {
-            Parameter totalHeight = new Parameter();
-            totalHeight.TypeOfParameter = ParameterType.TotalHeight;
-            totalHeight.Value = 960;
-            Parameter materialThickness = new Parameter();
-            materialThickness.TypeOfParameter = ParameterType.MaterialThickness;
-            materialThickness.Value = 30;
-            Parameter stepsAmount = new Parameter();
-            stepsAmount.TypeOfParameter = ParameterType.StepsAmount;
-            stepsAmount.Value = 2;
-            Parameter stepsSpacing = new Parameter();
-            stepsSpacing.TypeOfParameter = ParameterType.StepsSpacing;
-            stepsSpacing.Value = 300;
-            this._parameters.AllParameters = new Dictionary<ParameterType, Parameter>();
-            this._parameters.SetParameter(ParameterType.TotalHeight, totalHeight);
-            this._parameters.SetParameter(ParameterType.MaterialThickness, materialThickness);
-            this._parameters.SetParameter(ParameterType.StepsAmount, stepsAmount);
-            this._parameters.SetParameter(ParameterType.StepsSpacing, stepsSpacing);
-            Parameter newParameter = new Parameter();
-            newParameter.MaxValue = 5000;
-            newParameter.MinValue = 2;
-            newParameter.Value = wrongArgument;
+            Parameters parameters = new Parameters();
+            parameters.SetParameter(ParameterType.TotalHeight, 960);
+            parameters.SetParameter(ParameterType.MaterialThickness, 30);
+            parameters.SetParameter(ParameterType.StepsAmount, 2);
+            parameters.SetParameter(ParameterType.StepsSpacing, 300);
             Assert.Throws<ArgumentException>(
-            () => { this._parameters.SetParameter(parameterType, newParameter); },
+            () => { parameters.SetParameter(parameterType, wrongArgument); },
             message);
         }
     }

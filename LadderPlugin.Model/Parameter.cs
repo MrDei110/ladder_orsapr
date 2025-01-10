@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LadderPlugin
 {
@@ -27,12 +23,31 @@ namespace LadderPlugin
         private int _value;
 
         /// <summary>
-        /// Поле для значения тип параметра.
+        /// Поле для значения типа параметра.
         /// </summary>
         private ParameterType _typeOfParameter;
 
         /// <summary>
-        /// Gets or sets для поля _maxValue (максимальное значение).
+        /// Initializes a new instance of the <see cref="Parameter"/> class.
+        /// </summary>
+        /// <param name="maxValue">Максимальное значение.</param>
+        /// <param name="minValue">Минимальное значение.</param>]
+        public Parameter(int maxValue, int minValue)
+        {
+            try
+            {
+                this._maxValue = maxValue;
+                this._minValue = minValue;
+                this.MinMaxValidate();
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Gets для поля _maxValue (максимальное значение).
         /// </summary>
         public int MaxValue
         {
@@ -41,14 +56,14 @@ namespace LadderPlugin
                 return this._maxValue;
             }
 
-            set
+            private set
             {
                 this._maxValue = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets для поля _minValue (минимальное значение).
+        /// Gets для поля _minValue (минимальное значение).
         /// </summary>
         public int MinValue
         {
@@ -57,7 +72,7 @@ namespace LadderPlugin
                 return this._minValue;
             }
 
-            set
+            private set
             {
                 this._minValue = value;
             }
@@ -75,11 +90,21 @@ namespace LadderPlugin
 
             set
             {
-                this._value = value;
-                this.Validator();
+                try
+                {
+                    this._value = value;
+                    this.Validate();
+                }
+                catch (ArgumentException ex)
+                {
+                    throw ex;
+                }
             }
         }
 
+        /// <summary>
+        /// Gets or sets для поля _typeOfParameter (значение).
+        /// </summary>
         public ParameterType TypeOfParameter
         {
             get
@@ -90,34 +115,6 @@ namespace LadderPlugin
             set
             {
                 this._typeOfParameter = value;
-                this.DefineMinMax();
-            }
-        }
-
-        private void DefineMinMax()
-        {
-            switch (this._typeOfParameter)
-            {
-                case ParameterType.TotalHeight:
-                    this.MinValue = 900;
-                    this.MaxValue = 5000;
-                    break;
-                case ParameterType.StepsAmount:
-                    this.MinValue = 2;
-                    this.MaxValue = 14;
-                    break;
-                case ParameterType.MaterialThickness:
-                    this.MinValue = 30;
-                    this.MaxValue = 55;
-                    break;
-                case ParameterType.StepsSpacing:
-                    this.MinValue = 300;
-                    this.MaxValue = 340;
-                    break;
-                case ParameterType.StepsWidth:
-                    this.MinValue = 460;
-                    this.MaxValue = 800;
-                    break;
             }
         }
 
@@ -125,11 +122,23 @@ namespace LadderPlugin
         /// Валидация вводимого значения _value в параметр.
         /// </summary>
         /// <exception cref="ArgumentException">Текст ошибки.</exception>
-        private void Validator()
+        private void Validate()
         {
-            if (this.Value < this._minValue || this.Value > this._maxValue)
+            if (this._value < this._minValue || this._value > this._maxValue)
             {
-                throw new ArgumentException("Простая ошибка");
+                throw new ArgumentException("Значение за граничными пределами");
+            }
+        }
+
+        /// <summary>
+        /// Валидация на определение граничных условий.
+        /// </summary>
+        /// <exception cref="ArgumentException">Текст ошибки.</exception>
+        private void MinMaxValidate()
+        {
+            if (this._maxValue <= this._minValue || this._minValue < 0)
+            {
+                throw new ArgumentException("Нарушение в определении граничных условий");
             }
         }
     }

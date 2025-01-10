@@ -50,6 +50,9 @@
             this.buttonInfo = new System.Windows.Forms.Button();
             this.toolTipWarner = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.ComboBoxLadderType = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBoxDependentParameters.SuspendLayout();
@@ -59,6 +62,8 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -118,7 +123,7 @@
             this.TextBoxStepsSpacing.Name = "TextBoxStepsSpacing";
             this.TextBoxStepsSpacing.Size = new System.Drawing.Size(229, 20);
             this.TextBoxStepsSpacing.TabIndex = 7;
-            this.TextBoxStepsSpacing.Leave += new System.EventHandler(this.TextBoxStepsSpacing_Leave);
+            this.TextBoxStepsSpacing.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // labelStepsAmount
             // 
@@ -144,7 +149,7 @@
             this.TextBoxStepsAmount.Name = "TextBoxStepsAmount";
             this.TextBoxStepsAmount.Size = new System.Drawing.Size(229, 20);
             this.TextBoxStepsAmount.TabIndex = 3;
-            this.TextBoxStepsAmount.Leave += new System.EventHandler(this.TextBoxStepsAmount_Leave);
+            this.TextBoxStepsAmount.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // labelMaterialThickness
             // 
@@ -161,7 +166,7 @@
             this.TextBoxMaterialThickness.Name = "TextBoxMaterialThickness";
             this.TextBoxMaterialThickness.Size = new System.Drawing.Size(229, 20);
             this.TextBoxMaterialThickness.TabIndex = 5;
-            this.TextBoxMaterialThickness.Leave += new System.EventHandler(this.TextBoxMaterialThickness_Leave);
+            this.TextBoxMaterialThickness.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // TextBoxTotalHeight
             // 
@@ -193,7 +198,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(6, 19);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(204, 392);
+            this.pictureBox1.Size = new System.Drawing.Size(204, 457);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -254,23 +259,54 @@
             this.buttonInfo.TabIndex = 1;
             this.buttonInfo.Text = "Подробнее";
             this.buttonInfo.UseVisualStyleBackColor = true;
-            this.buttonInfo.Click += new System.EventHandler(this.buttonInfo_Click);
+            this.buttonInfo.Click += new System.EventHandler(this.ButtonInfo_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBoxDependentParameters);
             this.groupBox1.Controls.Add(this.groupBoxIndependentParameters);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 353);
+            this.groupBox1.Size = new System.Drawing.Size(261, 419);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ввод параметров";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.panel1);
+            this.groupBox4.Location = new System.Drawing.Point(6, 353);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(249, 59);
+            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Тип лестницы";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.ComboBoxLadderType);
+            this.panel1.Location = new System.Drawing.Point(6, 20);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(235, 31);
+            this.panel1.TabIndex = 0;
+            // 
+            // ComboBoxLadderType
+            // 
+            this.ComboBoxLadderType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxLadderType.FormattingEnabled = true;
+            this.ComboBoxLadderType.Items.AddRange(new object[] {
+            "Обычная",
+            "Стремянка"});
+            this.ComboBoxLadderType.Location = new System.Drawing.Point(3, 3);
+            this.ComboBoxLadderType.Name = "ComboBoxLadderType";
+            this.ComboBoxLadderType.Size = new System.Drawing.Size(229, 21);
+            this.ComboBoxLadderType.TabIndex = 0;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox2.Location = new System.Drawing.Point(13, 372);
+            this.groupBox2.Location = new System.Drawing.Point(13, 437);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(260, 58);
             this.groupBox2.TabIndex = 12;
@@ -282,7 +318,7 @@
             this.groupBox3.Controls.Add(this.pictureBox1);
             this.groupBox3.Location = new System.Drawing.Point(280, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(219, 417);
+            this.groupBox3.Size = new System.Drawing.Size(219, 482);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Информация об объекте";
@@ -291,7 +327,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 433);
+            this.ClientSize = new System.Drawing.Size(503, 501);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -310,6 +346,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -340,6 +378,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox ComboBoxLadderType;
     }
 }
 

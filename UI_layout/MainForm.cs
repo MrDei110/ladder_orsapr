@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using BuilderClass;
+using UI_layout;
+using StressTesting;
 
 namespace LadderPlugin
-{   /// <summary>
+{   
+    /// <summary>
     /// Класс MainForm.
     /// </summary>
     public partial class MainForm : Form
@@ -26,118 +30,135 @@ namespace LadderPlugin
         public MainForm()
         {
             InitializeComponent();
+
+            //StressTester stress = new StressTester();
+            //stress.StressTesting();
         }
 
         /// <summary>
-        /// Первичная валидация (проверка на введение в текстБоксы целых чисел.
+        /// Gets or sets AboutForm.
         /// </summary>
-        /// <param name="textBox">ТекстБокс.</param>
-        /// <param name="parameterType">Тип параметра.</param>
-        private void FirstValidate(
-            System.Windows.Forms.TextBox textBox,
-            ParameterType parameterType)
-        {
-            try
-            {
-                int.Parse(textBox.Text);
-                this.SetColors(textBox, parameterType, 3, 0, string.Empty);
-            }
-            catch
-            {
-                if (textBox.Text != string.Empty)
-                {
-                    this.SetColors(textBox, parameterType, 1, 0, "Ошибка");
-                }
-                else
-                {
-                    this.SetColors(textBox, parameterType, 1, 0, string.Empty);
-                }
-            }
-        }
+        private AboutForm AboutForm { get; set; }
 
         /// <summary>
         /// Вспомогательный метод для установки цвета для текстБокса.
         /// </summary>
         /// <param name="textBox">Передаваемый текстБокс.</param>
-        /// <param name="parameterType">Тип параметра.</param>
         /// <param name="whatColor">Устанавливаемый цвет.</param>
-        /// <param name="whatReason">Причина установки цвета.</param>
         /// <param name="text">Текст устанавливаемый в подсказку.</param>
         private void SetColors(
             System.Windows.Forms.TextBox textBox,
-            ParameterType parameterType,
+            Parameter parameter,
             int whatColor,
-            int whatReason,
             string text)
         {
-            Parameter parameter = new Parameter();
-            parameter.TypeOfParameter = parameterType;
             switch (whatColor)
             {
                 case 1:
+                {
                     textBox.BackColor = SystemColors.Window;
-                    if (text != string.Empty)
-                    {
-                        this.toolTipWarner.SetToolTip(textBox, "Доступны только целочисленные значения");
-                    }
+                    var message = textBox.Text != string.Empty
+                        ? "Доступны только целочисленные значения"
+                        : "Введите значения от " +
+                          parameter.MinValue.ToString() +
+                          " до " + parameter.MaxValue.ToString() +
+                          " мм";
+                    this.toolTipWarner.SetToolTip(textBox, message);
 
                     textBox.Text = string.Empty;
                     break;
-                case 2:
-                    textBox.BackColor = Color.Red;
-                    if (whatReason == 0)
-                    {
-                        string toolTipText = "Введите значения от " +
-                            parameter.MinValue.ToString() +
-                            " до " + parameter.MaxValue.ToString() +
-                            " мм";
-                        this.toolTipWarner.SetToolTip(textBox, toolTipText);
-                    }
-                    else if (whatReason == 1)
-                    {
-                        this.toolTipWarner.SetToolTip(textBox, text);
-                    }
+                }
 
+                case 2:
+                {
+                    textBox.BackColor = Color.Red;
+                    this.toolTipWarner.SetToolTip(textBox, text);
                     break;
+                }
+
                 case 3:
+                {
                     textBox.BackColor = Color.Green;
                     this.toolTipWarner.SetToolTip(textBox, string.Empty);
                     break;
+                }
             }
         }
 
         /// <summary>
-        /// Валидация параметров.
+        /// Вторичная валидация, попытка создания параметра, попытка добавления
+        /// корректного параметра в словарь.
         /// </summary>
-        /// <param name="textBox">ТекстБокс.</param>
+        /// <param name="textBox">Используемый текстБокс.</param>
         /// <param name="parameterType">Тип параметра.</param>
-        private void SecondValidate(
+        private void Validate(
             System.Windows.Forms.TextBox textBox,
             ParameterType parameterType)
         {
-            bool cached = false;
-            Parameter parameter = new Parameter();
-            parameter.TypeOfParameter = parameterType;
+            //TODO: mistype +
+            //TODO: FormatException +
             try
             {
-                parameter.Value = int.Parse(textBox.Text);
+                this._parameters.SetParameter(parameterType, int.Parse(textBox.Text));
+                this.SetColors(
+                    textBox,
+                    this._parameters.AllParameters[parameterType],
+                    3,
+                    string.Empty);
             }
-            catch (Exception e)
+            catch (FormatException)
             {
-                this.SetColors(textBox, parameterType, 2, 0, e.Message);
-                cached = true;
-            }
+                var message = textBox.Text != string.Empty
+                    ? "Ошибка"
+                    : string.Empty;
 
-            if (!cached)
+                this.SetColors(
+                    textBox,
+                    this._parameters.AllParameters[parameterType],
+                    1,
+                    message);
+            }
+            catch (ArgumentException e)
             {
-                try
+                switch (e.Message)
                 {
-                    this._parameters.SetParameter(parameterType, parameter);
-                    this.SetColors(textBox, parameterType, 3, 0, string.Empty);
-                }
-                catch (Exception e)
-                {
-                    this.SetColors(textBox, parameterType, 2, 1, e.Message);
+                    case "Значение за граничными пределами":
+                    {
+                        string toolTipText = "Введите значения от " +
+                        this._parameters.AllParameters[parameterType].MinValue.ToString() +
+                        " до " +
+                        this._parameters.AllParameters[parameterType].MaxValue.ToString() +
+                        " мм";
+                        this.SetColors(
+                            textBox,
+                            this._parameters.AllParameters[parameterType],
+                            2,
+                            toolTipText);
+                        break;
+                    }
+
+                    case "Нарушение в определении граничных условий":
+                    {
+                        MessageBox.Show(
+                            "Критическая ошибка системы!",
+                            "Ошибка!",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning,
+                            MessageBoxDefaultButton.Button1,
+                            MessageBoxOptions.DefaultDesktopOnly);
+                        this.buttonBuild.Enabled = false;
+                        break;
+                    }
+
+                    default:
+                    {
+                        this.SetColors(
+                            textBox,
+                            this._parameters.AllParameters[parameterType],
+                            2,
+                            e.Message);
+                        break;
+                    }
                 }
             }
         }
@@ -157,33 +178,55 @@ namespace LadderPlugin
                 this.TextBoxTotalHeight.BackColor == Color.Green
                 )
             {
-                this._builder.Build(this._parameters);
+                this._builder.Build(this._parameters, this.ComboBoxLadderType.SelectedIndex);
             }
         }
 
-        private void buttonInfo_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик нажатия на кнопку "Подробнее".
+        /// </summary>
+        /// <param name="sender">Объект.</param>
+        /// <param name="e">Аргумент.</param>
+        private void ButtonInfo_Click(object sender, EventArgs e)
         {
-
+            if (Application.OpenForms["AboutForm"] == null)
+            {
+                this.AboutForm = new AboutForm();
+                this.AboutForm.Show();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this._parameters.AllParameters = new Dictionary<ParameterType, Parameter>();
-            this.toolTipWarner.SetToolTip(
-                this.TextBoxTotalHeight,
-                "Общая высота лестницы должна быть от 500 до 9000 мм");
-            this.toolTipWarner.SetToolTip(
-                this.TextBoxStepsSpacing,
-                "Расстояние между ступенями должно быть от 300 до 340 мм");
-            this.toolTipWarner.SetToolTip(
-                this.TextBoxStepsWidth,
-                "Ширина ступени должна быть от 460 до 800 мм");
-            this.toolTipWarner.SetToolTip(
-                this.TextBoxStepsAmount,
-                "Количество ступеней должно быть от 2 до 14 мм");
+            this.ComboBoxLadderType.SelectedIndex = 0;
+            Parameter totalHeight = this._parameters.AllParameters[ParameterType.TotalHeight];
+            string toolTipTotalHeightText = "Общая высота лестницы должна быть от " +
+                totalHeight.MinValue.ToString() + " до " +
+                totalHeight.MaxValue.ToString() + " мм";
+            this.toolTipWarner.SetToolTip(this.TextBoxTotalHeight, toolTipTotalHeightText);
+            Parameter stepsSpacing = this._parameters.AllParameters[ParameterType.StepsSpacing];
+            string toolTipStepsSpacingText = "Расстояние между ступенями должно быть от " +
+                stepsSpacing.MinValue.ToString() + " до " +
+                stepsSpacing.MaxValue.ToString() + " мм";
+            this.toolTipWarner.SetToolTip(this.TextBoxStepsSpacing, toolTipStepsSpacingText);
+            Parameter stepsWidth = this._parameters.AllParameters[ParameterType.StepsWidth];
+            string toolTipStepsWidthText = "Ширина ступени должна быть от " +
+                stepsWidth.MinValue.ToString() + " до " +
+                stepsWidth.MaxValue.ToString() + " мм";
+            this.toolTipWarner.SetToolTip(this.TextBoxStepsWidth, toolTipStepsWidthText);
+            Parameter stepsAmount = this._parameters.AllParameters[ParameterType.StepsAmount];
+            string toolTipStepsAmountText = "Количество ступеней должно быть от " +
+                stepsAmount.MinValue.ToString() + " до " +
+                stepsAmount.MaxValue.ToString() + " мм";
+            this.toolTipWarner.SetToolTip(this.TextBoxStepsAmount, toolTipStepsAmountText);
+            Parameter materialThickness =
+                this._parameters.AllParameters[ParameterType.MaterialThickness];
+            string toolTipMaterialThicknessText = "Толщина профиля должна быть от " +
+                materialThickness.MinValue.ToString() + " до " +
+                materialThickness.MaxValue.ToString() + " мм";
             this.toolTipWarner.SetToolTip(
                 this.TextBoxMaterialThickness,
-                "Толщина профиля должна быть от 30 до 55 мм");
+                toolTipMaterialThicknessText);
         }
 
         /// <summary>
@@ -194,45 +237,35 @@ namespace LadderPlugin
         private void TextBoxTotalHeight_Leave(object sender, EventArgs e)
         {
             ParameterType parameterType = ParameterType.TotalHeight;
-            this.FirstValidate(this.TextBoxTotalHeight, parameterType);
+            this.Validate(this.TextBoxTotalHeight, parameterType);
             if (this.TextBoxTotalHeight.BackColor != SystemColors.Window)
             {
-                this.SecondValidate(this.TextBoxTotalHeight, parameterType);
-                this.FirstValidate(this.TextBoxStepsSpacing, ParameterType.StepsSpacing);
-                if (this.TextBoxStepsSpacing.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxStepsSpacing, ParameterType.StepsSpacing);
-                }
-                this.FirstValidate(this.TextBoxStepsAmount, ParameterType.StepsAmount);
-                if (this.TextBoxStepsAmount.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxStepsAmount, ParameterType.StepsAmount);
-                }
-                this.FirstValidate(this.TextBoxMaterialThickness, ParameterType.MaterialThickness);
-                if (this.TextBoxMaterialThickness.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxMaterialThickness, ParameterType.MaterialThickness);
-                }
+                this.Validate(this.TextBoxStepsSpacing, ParameterType.StepsSpacing);
+                this.Validate(this.TextBoxStepsAmount, ParameterType.StepsAmount);
+                this.Validate(this.TextBoxMaterialThickness, ParameterType.MaterialThickness);
             }
         }
 
         /// <summary>
-        /// Обработчик выхода из текстБокса "Расстояние между ступенями".
+        /// Обработчик выхода из текстБоксов с 1 зависимым параметром.
         /// </summary>
         /// <param name="sender">Объект.</param>
         /// <param name="e">Аргумент.</param>
-        private void TextBoxStepsSpacing_Leave(object sender, EventArgs e)
+        private void TextBoxOneChained_Leave(object sender, EventArgs e)
         {
-            ParameterType parameterType = ParameterType.StepsSpacing;
-            this.FirstValidate(this.TextBoxStepsSpacing, parameterType);
-            if (this.TextBoxStepsSpacing.BackColor != SystemColors.Window)
+            var chainedTextBoxesDictionary =
+                new Dictionary<TextBox, ParameterType>
             {
-                this.SecondValidate(this.TextBoxStepsSpacing, parameterType);
-                this.FirstValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                if (this.TextBoxTotalHeight.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                }
+                { this.TextBoxStepsAmount, ParameterType.StepsAmount },
+                { this.TextBoxStepsSpacing, ParameterType.StepsSpacing },
+                { this.TextBoxMaterialThickness, ParameterType.MaterialThickness },
+            };
+            TextBox textBox = (TextBox)sender;
+            ParameterType parameterType = chainedTextBoxesDictionary[textBox];
+            this.Validate(textBox, parameterType);
+            if (textBox.BackColor != SystemColors.Window)
+            {
+                this.Validate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
             }
         }
 
@@ -244,51 +277,7 @@ namespace LadderPlugin
         private void TextBoxStepsWidth_Leave(object sender, EventArgs e)
         {
             ParameterType parameterType = ParameterType.StepsWidth;
-            this.FirstValidate(this.TextBoxStepsWidth, parameterType);
-            if (this.TextBoxStepsWidth.BackColor != SystemColors.Window)
-            {
-                this.SecondValidate(this.TextBoxStepsWidth, parameterType);
-            }
-        }
-
-        /// <summary>
-        /// Обработчик выхода из текстБокса "Общая высота H (мм)".
-        /// </summary>
-        /// <param name="sender">Объект.</param>
-        /// <param name="e">Аргумент.</param>
-        private void TextBoxStepsAmount_Leave(object sender, EventArgs e)
-        {
-            ParameterType parameterType = ParameterType.StepsAmount;
-            this.FirstValidate(this.TextBoxStepsAmount, parameterType);
-            if (this.TextBoxStepsAmount.BackColor != SystemColors.Window)
-            {
-                this.SecondValidate(this.TextBoxStepsAmount, parameterType);
-                this.FirstValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                if (this.TextBoxTotalHeight.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Обработчик выхода из текстБокса "Общая высота H (мм)".
-        /// </summary>
-        /// <param name="sender">Объект.</param>
-        /// <param name="e">Аргумент.</param>
-        private void TextBoxMaterialThickness_Leave(object sender, EventArgs e)
-        {
-            ParameterType parameterType = ParameterType.MaterialThickness;
-            this.FirstValidate(this.TextBoxMaterialThickness, parameterType);
-            if (this.TextBoxMaterialThickness.BackColor != SystemColors.Window)
-            {
-                this.SecondValidate(this.TextBoxMaterialThickness, parameterType);
-                this.FirstValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                if (this.TextBoxTotalHeight.BackColor != SystemColors.Window)
-                {
-                    this.SecondValidate(this.TextBoxTotalHeight, ParameterType.TotalHeight);
-                }
-            }
+            this.Validate(this.TextBoxStepsWidth, parameterType);
         }
     }
 }
