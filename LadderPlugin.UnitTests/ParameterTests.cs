@@ -12,7 +12,7 @@ namespace LadderPlugin.UnitTests
         /// <summary>
         /// Тестовый параметр.
         /// </summary>
-        private Parameter _parameter = new Parameter(16, 14);
+        private Parameter _parameter = new Parameter(16, 14, ParameterType.TotalHeight);
 
         /// <summary>
         /// Позитивный тест геттера MaxValue.
@@ -52,7 +52,7 @@ namespace LadderPlugin.UnitTests
         [Test(Description = "Позитивный тест сеттера Value.")]
         public void TestProjectSetValue()
         {
-            Parameter expected = new Parameter(16, 14);
+            Parameter expected = new Parameter(16, 14, ParameterType.HandleLength);
             expected.Value = 15;
             var actual = this._parameter.Value = 15;
             Assert.AreEqual(expected.Value, actual);

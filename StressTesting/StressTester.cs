@@ -42,7 +42,8 @@ namespace StressTesting
                 var usedMemory = (computerInfo.TotalPhysicalMemory
                                   - computerInfo.AvailablePhysicalMemory)
                                   * gigabyteInByte;
-                streamWriter.WriteLine($"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
+                streamWriter.WriteLine(
+                    $"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
                 streamWriter.Flush();
                 stopWatch.Reset();
             }

@@ -40,8 +40,10 @@ namespace Kompas
         public void CreateOffsetPlane(double offset)
         {
             this._plane = (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_planeOffset);
-            ksPlaneOffsetDefinition planeDef = (ksPlaneOffsetDefinition)this._plane.GetDefinition();
-            ksEntity basePlane = (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
+            ksPlaneOffsetDefinition planeDef =
+                (ksPlaneOffsetDefinition)this._plane.GetDefinition();
+            ksEntity basePlane =
+                (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
             planeDef.offset = offset;
             planeDef.SetPlane(basePlane);
             planeDef.direction = true;
@@ -54,9 +56,12 @@ namespace Kompas
         /// <param name="angle">Угол.</param>
         public void CreateAnglePlane(double angle)
         {
-            ksEntity newPlane = (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_planeAngle);
-            ksPlaneAngleDefinition planeDef = (ksPlaneAngleDefinition)newPlane.GetDefinition();
-            ksEntity axis = (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_axisOX);
+            ksEntity newPlane =
+                (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_planeAngle);
+            ksPlaneAngleDefinition planeDef =
+                (ksPlaneAngleDefinition)newPlane.GetDefinition();
+            ksEntity axis =
+                (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_axisOX);
             planeDef.angle = angle;
             planeDef.SetAxis(axis);
             planeDef.SetPlane(this._plane);
@@ -70,25 +75,30 @@ namespace Kompas
         /// <param name="perspective">Выбранная плоскость.</param>
         public void CreateSketch(int perspective)
         {
-            this._sketchEntity = (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_sketch);
-            ksSketchDefinition sketchDef = (ksSketchDefinition)this._sketchEntity.GetDefinition();
+            this._sketchEntity =
+                (ksEntity)this._part.NewEntity((short)Obj3dType.o3d_sketch);
+            ksSketchDefinition sketchDef =
+                (ksSketchDefinition)this._sketchEntity.GetDefinition();
             switch (perspective)
             {
                 case 1:
                 {
-                    this._plane = (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
+                    this._plane =
+                            (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
                     break;
                 }
 
                 case 2:
                 {
-                    this._plane = (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOZ);
+                    this._plane =
+                            (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeXOZ);
                     break;
                 }
 
                 case 3:
                 {
-                    this._plane = (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeYOZ);
+                    this._plane =
+                            (ksEntity)this._part.GetDefaultEntity((short)Obj3dType.o3d_planeYOZ);
                     break;
                 }
             }
@@ -105,7 +115,8 @@ namespace Kompas
         /// <param name="count">Количество считываемых строк из массива.</param>
         public void CreateLine(double[,] pointsArray, int start, int count)
         {
-            ksSketchDefinition sketchDef = (ksSketchDefinition)this._sketchEntity.GetDefinition();
+            ksSketchDefinition sketchDef =
+                (ksSketchDefinition)this._sketchEntity.GetDefinition();
             ksDocument2D document2D = (ksDocument2D)sketchDef.BeginEdit();
             if (document2D != null)
             {

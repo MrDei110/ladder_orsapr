@@ -88,23 +88,43 @@ namespace LadderPlugin
         /// </summary>
         public Parameters()
         {
-            Parameter totalHeight = new Parameter(TOTAL_HEIGHT_MAX_VALUE, TOTAL_HEIGHT_MIN_VALUE);
-            totalHeight.TypeOfParameter = ParameterType.TotalHeight;
-            Parameter stepsAmount = new Parameter(STEPS_AMOUNT_MAX_VALUE, STEPS_AMOUNT_MIN_VALUE);
-            stepsAmount.TypeOfParameter = ParameterType.StepsAmount;
-            Parameter materialThickness = new Parameter(MATERIAL_THICKNESS_MAX_VALUE, MATERIAL_THICKNESS_MIN_VALUE);
-            materialThickness.TypeOfParameter = ParameterType.MaterialThickness;
-            Parameter stepsSpacing = new Parameter(STEPS_SPACING_MAX_VALUE, STEPS_SPACING_MIN_VALUE);
-            stepsSpacing.TypeOfParameter = ParameterType.StepsSpacing;
-            Parameter stepsWidth = new Parameter(STEPS_WIDTH_MAX_VALUE, STEPS_WIDTH_MIN_VALUE);
-            stepsWidth.TypeOfParameter = ParameterType.StepsWidth;
             this.AllParameters = new Dictionary<ParameterType, Parameter>()
             {
-                { ParameterType.TotalHeight, totalHeight },
-                { ParameterType.StepsAmount, stepsAmount },
-                { ParameterType.MaterialThickness, materialThickness },
-                { ParameterType.StepsSpacing, stepsSpacing },
-                { ParameterType.StepsWidth, stepsWidth },
+                {
+                    ParameterType.TotalHeight,
+                    new Parameter(
+                        TOTAL_HEIGHT_MAX_VALUE,
+                        TOTAL_HEIGHT_MIN_VALUE,
+                        ParameterType.TotalHeight)
+                },
+                {
+                    ParameterType.StepsAmount,
+                    new Parameter(
+                        STEPS_AMOUNT_MAX_VALUE,
+                        STEPS_AMOUNT_MIN_VALUE,
+                        ParameterType.StepsAmount)
+                },
+                {
+                    ParameterType.MaterialThickness,
+                    new Parameter(
+                        MATERIAL_THICKNESS_MAX_VALUE,
+                        MATERIAL_THICKNESS_MIN_VALUE,
+                        ParameterType.MaterialThickness)
+                },
+                {
+                    ParameterType.StepsSpacing,
+                    new Parameter(
+                        STEPS_SPACING_MAX_VALUE,
+                        STEPS_SPACING_MIN_VALUE,
+                        ParameterType.StepsSpacing)
+                },
+                {
+                    ParameterType.StepsWidth,
+                    new Parameter(
+                        STEPS_WIDTH_MAX_VALUE,
+                        STEPS_WIDTH_MIN_VALUE,
+                        ParameterType.StepsWidth)
+                },
             };
         }
 
@@ -120,7 +140,7 @@ namespace LadderPlugin
                 this.AllParameters[parameterType].Value = value;
                 this.ValidateParameters(this.AllParameters[parameterType]);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentOutOfRangeException ex)
             {
                 throw ex;
             }
@@ -129,7 +149,8 @@ namespace LadderPlugin
         /// <summary>
         /// Валидация зависимых параметров.
         /// </summary>
-        /// <exception cref="ArgumentException">Текст ошибки.</exception>
+        /// <param name="parameter">Параметр.</param>
+        /// <exception cref="ParametersException">Текст ошибки.</exception>
         private void ValidateParameters(Parameter parameter)
         {
             string message = string.Empty;
@@ -152,10 +173,9 @@ namespace LadderPlugin
                             materialThickness.Value;
                         if (parameter.Value != minValue)
                         {
-                            message += "Общая высота лестницы меньше чем сумма её ступеней" +
-                                    ", измените заданное значение на "
-                                    + minValue.ToString() + '\n';
-                        }
+                            message = "Общая высота лестницы меньше чем сумма её ступеней" +
+                                    this.TextCaster(minValue);
+                            }
                     }
 
                     break;
@@ -175,10 +195,8 @@ namespace LadderPlugin
                             (stepsSpacing.Value + materialThickness.Value);
                         if (parameter.Value != maxValue)
                         {
-                            message += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", измените заданное значение на "
-                                    + maxValue.ToString() + '\n';
-                        }
+                            message = this.NoHeightTextCaster() + this.TextCaster(maxValue);
+                            }
                     }
 
                     break;
@@ -198,10 +216,8 @@ namespace LadderPlugin
                             materialThickness.Value) / (stepsAmount.Value + 1);
                         if (parameter.Value != maxValue)
                         {
-                            message += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", измените заданное значение на "
-                                    + maxValue.ToString() + '\n';
-                        }
+                            message = this.NoHeightTextCaster() + this.TextCaster(maxValue);
+                            }
                     }
 
                     break;
@@ -220,9 +236,7 @@ namespace LadderPlugin
                             stepsSpacing.Value) / stepsAmount.Value;
                         if (parameter.Value != maxValue)
                         {
-                            message += "Общая сумма ступеней больше высоты лестницы" +
-                                    ", измените заданное значение на  "
-                                    + maxValue.ToString() + '\n';
+                            message = this.NoHeightTextCaster() + this.TextCaster(maxValue);
                         }
                     }
 
@@ -232,8 +246,42 @@ namespace LadderPlugin
 
             if (message != string.Empty)
             {
-                throw new ArgumentException(message);
+                throw new ParametersException(message);
             }
+        }
+
+        /// <summary>
+        /// Вспомогательный метод формирующий текст для сообщения.
+        /// </summary>
+        /// <param name="value">Значение для формирования текста.</param>
+        /// <returns>Текст сообщения.</returns>
+        private string TextCaster(double value)
+        {
+            return $", измените заданное значение на {value.ToString()}\n";
+        }
+
+        /// <summary>
+        /// Вспомогательный метод формирующий текст для сообщения, используемый везде, кроме высоты.
+        /// </summary>
+        /// <returns>Текст для сообщения.</returns>
+        private string NoHeightTextCaster()
+        {
+            return "Общая сумма ступеней больше высоты лестницы";
+        }
+    }
+
+    /// <summary>
+    /// Класс пользовательского исключения на ввод параметров.
+    /// </summary>
+    public class ParametersException : ArgumentOutOfRangeException
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParametersException"/> class.
+        /// </summary>
+        /// <param name="message">Передаваемое сообщение.</param>
+        public ParametersException(string message)
+            : base(message)
+        {
         }
     }
 }

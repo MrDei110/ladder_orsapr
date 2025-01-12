@@ -48,40 +48,21 @@ namespace LadderPlugin
         /// <param name="text">Текст устанавливаемый в подсказку.</param>
         private void SetColors(
             System.Windows.Forms.TextBox textBox,
-            Parameter parameter,
-            int whatColor,
+            Color whatColor,
             string text)
         {
-            switch (whatColor)
+            textBox.BackColor = whatColor;
+            if (whatColor == SystemColors.Window)
             {
-                case 1:
-                {
-                    textBox.BackColor = SystemColors.Window;
-                    var message = textBox.Text != string.Empty
-                        ? "Доступны только целочисленные значения"
-                        : "Введите значения от " +
-                          parameter.MinValue.ToString() +
-                          " до " + parameter.MaxValue.ToString() +
-                          " мм";
-                    this.toolTipWarner.SetToolTip(textBox, message);
-
-                    textBox.Text = string.Empty;
-                    break;
-                }
-
-                case 2:
-                {
-                    textBox.BackColor = Color.Red;
-                    this.toolTipWarner.SetToolTip(textBox, text);
-                    break;
-                }
-
-                case 3:
-                {
-                    textBox.BackColor = Color.Green;
-                    this.toolTipWarner.SetToolTip(textBox, string.Empty);
-                    break;
-                }
+                var message = textBox.Text != string.Empty
+                    ? "Доступны только целочисленные значения"
+                    : text;
+                this.toolTipWarner.SetToolTip(textBox, message);
+                textBox.Text = string.Empty;
+            }
+            else
+            {
+                this.toolTipWarner.SetToolTip(textBox, text);
             }
         }
 
@@ -102,64 +83,42 @@ namespace LadderPlugin
                 this._parameters.SetParameter(parameterType, int.Parse(textBox.Text));
                 this.SetColors(
                     textBox,
-                    this._parameters.AllParameters[parameterType],
-                    3,
+                    Color.Green,
                     string.Empty);
             }
             catch (FormatException)
             {
-                var message = textBox.Text != string.Empty
-                    ? "Ошибка"
-                    : string.Empty;
-
                 this.SetColors(
                     textBox,
-                    this._parameters.AllParameters[parameterType],
-                    1,
-                    message);
+                    SystemColors.Window,
+                    this.RangeTextCaster(this._parameters.AllParameters[parameterType]));
             }
-            catch (ArgumentException e)
+            catch (ValueException)
             {
-                switch (e.Message)
-                {
-                    case "Значение за граничными пределами":
-                    {
-                        string toolTipText = "Введите значения от " +
-                        this._parameters.AllParameters[parameterType].MinValue.ToString() +
-                        " до " +
-                        this._parameters.AllParameters[parameterType].MaxValue.ToString() +
-                        " мм";
-                        this.SetColors(
-                            textBox,
-                            this._parameters.AllParameters[parameterType],
-                            2,
-                            toolTipText);
-                        break;
-                    }
-
-                    case "Нарушение в определении граничных условий":
-                    {
-                        MessageBox.Show(
+                string toolTipText =
+                    this.RangeTextCaster(this._parameters.AllParameters[parameterType]);
+                this.SetColors(
+                    textBox,
+                    Color.Red,
+                    toolTipText);
+            }
+            catch (MinMaxException)
+            {
+                MessageBox.Show(
                             "Критическая ошибка системы!",
                             "Ошибка!",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning,
                             MessageBoxDefaultButton.Button1,
                             MessageBoxOptions.DefaultDesktopOnly);
-                        this.buttonBuild.Enabled = false;
-                        break;
-                    }
-
-                    default:
-                    {
-                        this.SetColors(
-                            textBox,
-                            this._parameters.AllParameters[parameterType],
-                            2,
-                            e.Message);
-                        break;
-                    }
-                }
+                this.buttonBuild.Enabled = false;
+            }
+            catch (ParametersException e)
+            {
+                this.SetColors(
+                    textBox,
+                    Color.Red,
+                    e.Message);
             }
         }
 
@@ -196,34 +155,29 @@ namespace LadderPlugin
             }
         }
 
+        /// <summary>
+        /// Метод, вызываемый при загрузке MainForm.
+        /// </summary>
+        /// <param name="sender">Объект.</param>
+        /// <param name="e">Аргумент.</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.ComboBoxLadderType.SelectedIndex = 0;
-            Parameter totalHeight = this._parameters.AllParameters[ParameterType.TotalHeight];
-            string toolTipTotalHeightText = "Общая высота лестницы должна быть от " +
-                totalHeight.MinValue.ToString() + " до " +
-                totalHeight.MaxValue.ToString() + " мм";
+            string toolTipTotalHeightText =
+                this.RangeTextCaster(this._parameters.AllParameters[ParameterType.TotalHeight]);
             this.toolTipWarner.SetToolTip(this.TextBoxTotalHeight, toolTipTotalHeightText);
-            Parameter stepsSpacing = this._parameters.AllParameters[ParameterType.StepsSpacing];
-            string toolTipStepsSpacingText = "Расстояние между ступенями должно быть от " +
-                stepsSpacing.MinValue.ToString() + " до " +
-                stepsSpacing.MaxValue.ToString() + " мм";
+            string toolTipStepsSpacingText =
+                this.RangeTextCaster(this._parameters.AllParameters[ParameterType.StepsSpacing]);
             this.toolTipWarner.SetToolTip(this.TextBoxStepsSpacing, toolTipStepsSpacingText);
-            Parameter stepsWidth = this._parameters.AllParameters[ParameterType.StepsWidth];
-            string toolTipStepsWidthText = "Ширина ступени должна быть от " +
-                stepsWidth.MinValue.ToString() + " до " +
-                stepsWidth.MaxValue.ToString() + " мм";
+            string toolTipStepsWidthText =
+                this.RangeTextCaster(this._parameters.AllParameters[ParameterType.StepsWidth]);
             this.toolTipWarner.SetToolTip(this.TextBoxStepsWidth, toolTipStepsWidthText);
-            Parameter stepsAmount = this._parameters.AllParameters[ParameterType.StepsAmount];
-            string toolTipStepsAmountText = "Количество ступеней должно быть от " +
-                stepsAmount.MinValue.ToString() + " до " +
-                stepsAmount.MaxValue.ToString() + " мм";
+            string toolTipStepsAmountText =
+                this.RangeTextCaster(this._parameters.AllParameters[ParameterType.StepsAmount]);
             this.toolTipWarner.SetToolTip(this.TextBoxStepsAmount, toolTipStepsAmountText);
-            Parameter materialThickness =
-                this._parameters.AllParameters[ParameterType.MaterialThickness];
-            string toolTipMaterialThicknessText = "Толщина профиля должна быть от " +
-                materialThickness.MinValue.ToString() + " до " +
-                materialThickness.MaxValue.ToString() + " мм";
+            string toolTipMaterialThicknessText =
+                this.RangeTextCaster(
+                    this._parameters.AllParameters[ParameterType.MaterialThickness]);
             this.toolTipWarner.SetToolTip(
                 this.TextBoxMaterialThickness,
                 toolTipMaterialThicknessText);
@@ -278,6 +232,20 @@ namespace LadderPlugin
         {
             ParameterType parameterType = ParameterType.StepsWidth;
             this.Validate(this.TextBoxStepsWidth, parameterType);
+        }
+
+        /// <summary>
+        /// Вспомогательный метод для генерации текста граничных условий.
+        /// </summary>
+        /// <param name="parameter">Передаваемый параметр.</param>
+        /// <returns>Текст для подсказки.</returns>
+        private string RangeTextCaster(Parameter parameter)
+        {
+            return "Введите значение от " +
+                parameter.MinValue.ToString() +
+                " до " +
+                parameter.MaxValue.ToString() +
+                " мм";
         }
     }
 }
