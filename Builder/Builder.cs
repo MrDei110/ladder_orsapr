@@ -122,18 +122,17 @@ namespace BuilderClass
         {
             //TODO: RSDN
             Parameter totalHeight = parameters.AllParameters[ParameterType.TotalHeight];
-            double y = (double)totalHeight.Value;
             Parameter stepsAmount = parameters.AllParameters[ParameterType.StepsAmount];
-            int n = stepsAmount.Value;
             Parameter materialThickness = parameters.AllParameters[ParameterType.MaterialThickness];
-            double d = (double)materialThickness.Value;
             Parameter stepsSpacing = parameters.AllParameters[ParameterType.StepsSpacing];
-            double step = (double)stepsSpacing.Value;
             Parameter stepsWidth = parameters.AllParameters[ParameterType.StepsWidth];
+
             double x = (double)stepsWidth.Value;
+            double d = (double)materialThickness.Value;
             double halfX = x / SCALETWO;
             double halfWithThicknessX = halfX + d;
 
+            double y = (double)totalHeight.Value;
             double offset = y * SQRT2DIVIDED2;
             this._wrapper.CreateOffsetPlane(offset);
             this._wrapper.CreateAnglePlane(PIDIVIDED4ANGLE);
@@ -177,8 +176,11 @@ namespace BuilderClass
                     1
                 },
             };
+
+            double step = (double)stepsSpacing.Value;
             this._wrapper.CreateLine(pointsArray, 0, 8);
             this._wrapper.Extrusion(1, d);
+            int n = stepsAmount.Value;
             for (int i = 0; i < n + 1; i++)
             {
                 this._wrapper.CreateSketch(0);

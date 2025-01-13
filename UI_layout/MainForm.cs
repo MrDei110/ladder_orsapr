@@ -73,6 +73,8 @@ namespace LadderPlugin
             System.Windows.Forms.TextBox textBox,
             ParameterType parameterType)
         {
+            //TODO: mistype +
+            //TODO: FormatException +
             try
             {
                 this._parameters.SetParameter(parameterType, int.Parse(textBox.Text));
@@ -80,24 +82,6 @@ namespace LadderPlugin
                     textBox,
                     Color.Green,
                     string.Empty);
-            }
-            catch (FormatException)
-            {
-                 //TODO: duplication
-                this.SetColors(
-                    textBox,
-                    SystemColors.Window,
-                    this.RangeTextCaster(this._parameters.AllParameters[parameterType]));
-            }
-            catch (ValueException)
-            {
-                 //TODO: duplication
-                string toolTipText =
-                    this.RangeTextCaster(this._parameters.AllParameters[parameterType]);
-                this.SetColors(
-                    textBox,
-                    Color.Red,
-                    toolTipText);
             }
             catch (MinMaxException)
             {
@@ -110,13 +94,23 @@ namespace LadderPlugin
                             MessageBoxOptions.DefaultDesktopOnly);
                 this.buttonBuild.Enabled = false;
             }
-            catch (ParametersException e)
+            catch(Exception ex)
             {
-                 //TODO: duplication
+                var exceptionDictionary = new Dictionary<System.Type, (Color color, string text)>
+                {
+                    { typeof(FormatException),
+                        (Color.Gainsboro,
+                        this.RangeTextCaster(this._parameters.AllParameters[parameterType])) },
+                    { typeof(ParametersException), (Color.Crimson, ex.Message) },
+                    { typeof(ValueException),
+                        (Color.Crimson,
+                        this.RangeTextCaster(this._parameters.AllParameters[parameterType])) }
+                };
+                var chained = exceptionDictionary[ex.GetType()];
                 this.SetColors(
                     textBox,
-                    Color.Red,
-                    e.Message);
+                    chained.color,
+                    chained.text);
             }
         }
 
@@ -161,7 +155,6 @@ namespace LadderPlugin
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.ComboBoxLadderType.SelectedIndex = 0;
-             //TODO: duplication
             string toolTipTotalHeightText =
                 this.RangeTextCaster(this._parameters.AllParameters[ParameterType.TotalHeight]);
             this.toolTipWarner.SetToolTip(this.TextBoxTotalHeight, toolTipTotalHeightText);

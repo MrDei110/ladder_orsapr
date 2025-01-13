@@ -11,10 +11,15 @@ using System.Windows.Forms;
 
 namespace UI_layout
 {
-    //TODO:XML
+    /// <summary>
+    /// Класс для вывода справочного окна.
+    /// </summary>
     public partial class AboutForm : Form
     {
-        //TODO:XML
+        //TODO:XML+
+        /// <summary>
+        /// Инициализация компонентов справочного окна.
+        /// </summary>
         public AboutForm()
         {
             InitializeComponent();
