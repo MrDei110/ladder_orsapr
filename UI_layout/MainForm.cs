@@ -73,8 +73,6 @@ namespace LadderPlugin
             System.Windows.Forms.TextBox textBox,
             ParameterType parameterType)
         {
-            //TODO: mistype +
-            //TODO: FormatException +
             try
             {
                 this._parameters.SetParameter(parameterType, int.Parse(textBox.Text));
@@ -85,6 +83,7 @@ namespace LadderPlugin
             }
             catch (FormatException)
             {
+                 //TODO: duplication
                 this.SetColors(
                     textBox,
                     SystemColors.Window,
@@ -92,6 +91,7 @@ namespace LadderPlugin
             }
             catch (ValueException)
             {
+                 //TODO: duplication
                 string toolTipText =
                     this.RangeTextCaster(this._parameters.AllParameters[parameterType]);
                 this.SetColors(
@@ -112,6 +112,7 @@ namespace LadderPlugin
             }
             catch (ParametersException e)
             {
+                 //TODO: duplication
                 this.SetColors(
                     textBox,
                     Color.Red,
@@ -160,6 +161,7 @@ namespace LadderPlugin
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.ComboBoxLadderType.SelectedIndex = 0;
+             //TODO: duplication
             string toolTipTotalHeightText =
                 this.RangeTextCaster(this._parameters.AllParameters[ParameterType.TotalHeight]);
             this.toolTipWarner.SetToolTip(this.TextBoxTotalHeight, toolTipTotalHeightText);

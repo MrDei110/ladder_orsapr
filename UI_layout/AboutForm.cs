@@ -11,8 +11,10 @@ using System.Windows.Forms;
 
 namespace UI_layout
 {
+    //TODO:XML
     public partial class AboutForm : Form
     {
+        //TODO:XML
         public AboutForm()
         {
             InitializeComponent();

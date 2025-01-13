@@ -120,6 +120,7 @@ namespace BuilderClass
         /// <param name="parameters">Параметры стремянки.</param>
         private void BuildStepLadder(Parameters parameters)
         {
+            //TODO: RSDN
             Parameter totalHeight = parameters.AllParameters[ParameterType.TotalHeight];
             double y = (double)totalHeight.Value;
             Parameter stepsAmount = parameters.AllParameters[ParameterType.StepsAmount];
@@ -132,6 +133,7 @@ namespace BuilderClass
             double x = (double)stepsWidth.Value;
             double halfX = x / SCALETWO;
             double halfWithThicknessX = halfX + d;
+
             double offset = y * SQRT2DIVIDED2;
             this._wrapper.CreateOffsetPlane(offset);
             this._wrapper.CreateAnglePlane(PIDIVIDED4ANGLE);
