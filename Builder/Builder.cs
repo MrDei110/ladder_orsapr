@@ -120,10 +120,11 @@ namespace BuilderClass
         /// <param name="parameters">Параметры стремянки.</param>
         private void BuildStepLadder(Parameters parameters)
         {
-            //TODO: RSDN
+            //TODO: RSDN+
             Parameter totalHeight = parameters.AllParameters[ParameterType.TotalHeight];
             Parameter stepsAmount = parameters.AllParameters[ParameterType.StepsAmount];
-            Parameter materialThickness = parameters.AllParameters[ParameterType.MaterialThickness];
+            Parameter materialThickness =
+                parameters.AllParameters[ParameterType.MaterialThickness];
             Parameter stepsSpacing = parameters.AllParameters[ParameterType.StepsSpacing];
             Parameter stepsWidth = parameters.AllParameters[ParameterType.StepsWidth];
 

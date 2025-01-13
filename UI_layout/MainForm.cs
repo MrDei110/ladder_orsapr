@@ -98,13 +98,17 @@ namespace LadderPlugin
             {
                 var exceptionDictionary = new Dictionary<System.Type, (Color color, string text)>
                 {
-                    { typeof(FormatException),
+                    {
+                        typeof(FormatException),
                         (Color.Gainsboro,
-                        this.RangeTextCaster(this._parameters.AllParameters[parameterType])) },
+                        this.RangeTextCaster(this._parameters.AllParameters[parameterType]))
+                    },
                     { typeof(ParametersException), (Color.Crimson, ex.Message) },
-                    { typeof(ValueException),
+                    {
+                        typeof(ValueException),
                         (Color.Crimson,
-                        this.RangeTextCaster(this._parameters.AllParameters[parameterType])) }
+                        this.RangeTextCaster(this._parameters.AllParameters[parameterType]))
+                    }
                 };
                 var chained = exceptionDictionary[ex.GetType()];
                 this.SetColors(
