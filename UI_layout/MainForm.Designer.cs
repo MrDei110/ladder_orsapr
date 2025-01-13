@@ -71,11 +71,9 @@
             // groupBoxDependentParameters
             // 
             this.groupBoxDependentParameters.Controls.Add(this.tableLayoutPanel1);
-            this.groupBoxDependentParameters.Location = new System.Drawing.Point(9, 29);
-            this.groupBoxDependentParameters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxDependentParameters.Location = new System.Drawing.Point(6, 19);
             this.groupBoxDependentParameters.Name = "groupBoxDependentParameters";
-            this.groupBoxDependentParameters.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxDependentParameters.Size = new System.Drawing.Size(374, 388);
+            this.groupBoxDependentParameters.Size = new System.Drawing.Size(249, 252);
             this.groupBoxDependentParameters.TabIndex = 0;
             this.groupBoxDependentParameters.TabStop = false;
             this.groupBoxDependentParameters.Text = "Зависимые параметры";
@@ -92,127 +90,115 @@
             this.tableLayoutPanel1.Controls.Add(this.labelMaterialThickness, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxMaterialThickness, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxTotalHeight, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(9, 29);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 11;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(352, 348);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(235, 226);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // labelTotalHeight
             // 
             this.labelTotalHeight.AutoSize = true;
-            this.labelTotalHeight.Location = new System.Drawing.Point(4, 0);
-            this.labelTotalHeight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTotalHeight.Location = new System.Drawing.Point(3, 0);
             this.labelTotalHeight.Name = "labelTotalHeight";
-            this.labelTotalHeight.Size = new System.Drawing.Size(172, 20);
+            this.labelTotalHeight.Size = new System.Drawing.Size(118, 13);
             this.labelTotalHeight.TabIndex = 0;
             this.labelTotalHeight.Text = "Общая высота H (мм)";
             // 
             // TextBoxStepsSpacing
             // 
-            this.TextBoxStepsSpacing.Location = new System.Drawing.Point(4, 315);
-            this.TextBoxStepsSpacing.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextBoxStepsSpacing.Location = new System.Drawing.Point(3, 203);
             this.TextBoxStepsSpacing.Name = "TextBoxStepsSpacing";
-            this.TextBoxStepsSpacing.Size = new System.Drawing.Size(342, 26);
+            this.TextBoxStepsSpacing.Size = new System.Drawing.Size(229, 20);
             this.TextBoxStepsSpacing.TabIndex = 7;
             this.TextBoxStepsSpacing.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // labelStepsAmount
             // 
             this.labelStepsAmount.AutoSize = true;
-            this.labelStepsAmount.Location = new System.Drawing.Point(4, 93);
-            this.labelStepsAmount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStepsAmount.Location = new System.Drawing.Point(3, 60);
             this.labelStepsAmount.Name = "labelStepsAmount";
-            this.labelStepsAmount.Size = new System.Drawing.Size(222, 20);
+            this.labelStepsAmount.Size = new System.Drawing.Size(146, 13);
             this.labelStepsAmount.TabIndex = 2;
             this.labelStepsAmount.Text = "Количество ступеней n (шт)";
             // 
             // labelStepsSpacing
             // 
             this.labelStepsSpacing.AutoSize = true;
-            this.labelStepsSpacing.Location = new System.Drawing.Point(4, 279);
-            this.labelStepsSpacing.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStepsSpacing.Location = new System.Drawing.Point(3, 180);
             this.labelStepsSpacing.Name = "labelStepsSpacing";
-            this.labelStepsSpacing.Size = new System.Drawing.Size(293, 20);
+            this.labelStepsSpacing.Size = new System.Drawing.Size(200, 13);
             this.labelStepsSpacing.TabIndex = 6;
             this.labelStepsSpacing.Text = "Расстояние между ступенями g1 (мм)";
             // 
             // TextBoxStepsAmount
             // 
-            this.TextBoxStepsAmount.Location = new System.Drawing.Point(4, 129);
-            this.TextBoxStepsAmount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextBoxStepsAmount.Location = new System.Drawing.Point(3, 83);
             this.TextBoxStepsAmount.Name = "TextBoxStepsAmount";
-            this.TextBoxStepsAmount.Size = new System.Drawing.Size(342, 26);
+            this.TextBoxStepsAmount.Size = new System.Drawing.Size(229, 20);
             this.TextBoxStepsAmount.TabIndex = 3;
             this.TextBoxStepsAmount.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // labelMaterialThickness
             // 
             this.labelMaterialThickness.AutoSize = true;
-            this.labelMaterialThickness.Location = new System.Drawing.Point(4, 186);
-            this.labelMaterialThickness.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelMaterialThickness.Location = new System.Drawing.Point(3, 120);
             this.labelMaterialThickness.Name = "labelMaterialThickness";
-            this.labelMaterialThickness.Size = new System.Drawing.Size(206, 20);
+            this.labelMaterialThickness.Size = new System.Drawing.Size(139, 13);
             this.labelMaterialThickness.TabIndex = 4;
             this.labelMaterialThickness.Text = "Толщина профиля W (мм)";
             // 
             // TextBoxMaterialThickness
             // 
-            this.TextBoxMaterialThickness.Location = new System.Drawing.Point(4, 222);
-            this.TextBoxMaterialThickness.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextBoxMaterialThickness.Location = new System.Drawing.Point(3, 143);
             this.TextBoxMaterialThickness.Name = "TextBoxMaterialThickness";
-            this.TextBoxMaterialThickness.Size = new System.Drawing.Size(342, 26);
+            this.TextBoxMaterialThickness.Size = new System.Drawing.Size(229, 20);
             this.TextBoxMaterialThickness.TabIndex = 5;
             this.TextBoxMaterialThickness.Leave += new System.EventHandler(this.TextBoxOneChained_Leave);
             // 
             // TextBoxTotalHeight
             // 
-            this.TextBoxTotalHeight.Location = new System.Drawing.Point(4, 36);
-            this.TextBoxTotalHeight.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextBoxTotalHeight.Location = new System.Drawing.Point(3, 23);
             this.TextBoxTotalHeight.Name = "TextBoxTotalHeight";
-            this.TextBoxTotalHeight.Size = new System.Drawing.Size(342, 26);
+            this.TextBoxTotalHeight.Size = new System.Drawing.Size(229, 20);
             this.TextBoxTotalHeight.TabIndex = 1;
             this.TextBoxTotalHeight.Leave += new System.EventHandler(this.TextBoxTotalHeight_Leave);
             // 
             // TextBoxStepsWidth
             // 
-            this.TextBoxStepsWidth.Location = new System.Drawing.Point(4, 36);
-            this.TextBoxStepsWidth.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.TextBoxStepsWidth.Location = new System.Drawing.Point(3, 23);
             this.TextBoxStepsWidth.Name = "TextBoxStepsWidth";
-            this.TextBoxStepsWidth.Size = new System.Drawing.Size(342, 26);
+            this.TextBoxStepsWidth.Size = new System.Drawing.Size(229, 20);
             this.TextBoxStepsWidth.TabIndex = 1;
             this.TextBoxStepsWidth.Leave += new System.EventHandler(this.TextBoxStepsWidth_Leave);
             // 
             // labelStepsWidth
             // 
             this.labelStepsWidth.AutoSize = true;
-            this.labelStepsWidth.Location = new System.Drawing.Point(4, 0);
-            this.labelStepsWidth.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStepsWidth.Location = new System.Drawing.Point(3, 0);
             this.labelStepsWidth.Name = "labelStepsWidth";
-            this.labelStepsWidth.Size = new System.Drawing.Size(189, 20);
+            this.labelStepsWidth.Size = new System.Drawing.Size(129, 13);
             this.labelStepsWidth.TabIndex = 0;
             this.labelStepsWidth.Text = "Ширина ступени b1 (мм)";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(9, 29);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(306, 703);
+            this.pictureBox1.Size = new System.Drawing.Size(204, 457);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
@@ -220,11 +206,9 @@
             // groupBoxIndependentParameters
             // 
             this.groupBoxIndependentParameters.Controls.Add(this.tableLayoutPanel2);
-            this.groupBoxIndependentParameters.Location = new System.Drawing.Point(9, 426);
-            this.groupBoxIndependentParameters.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBoxIndependentParameters.Location = new System.Drawing.Point(6, 277);
             this.groupBoxIndependentParameters.Name = "groupBoxIndependentParameters";
-            this.groupBoxIndependentParameters.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBoxIndependentParameters.Size = new System.Drawing.Size(374, 108);
+            this.groupBoxIndependentParameters.Size = new System.Drawing.Size(249, 70);
             this.groupBoxIndependentParameters.TabIndex = 1;
             this.groupBoxIndependentParameters.TabStop = false;
             this.groupBoxIndependentParameters.Text = "Независимые параметры";
@@ -235,13 +219,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.labelStepsWidth, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.TextBoxStepsWidth, 0, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(9, 31);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 20);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(352, 68);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(235, 44);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -251,20 +234,18 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.buttonBuild, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.buttonInfo, 1, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(16, 29);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(11, 19);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(352, 48);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(235, 31);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // buttonBuild
             // 
-            this.buttonBuild.Location = new System.Drawing.Point(4, 5);
-            this.buttonBuild.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonBuild.Location = new System.Drawing.Point(3, 3);
             this.buttonBuild.Name = "buttonBuild";
-            this.buttonBuild.Size = new System.Drawing.Size(166, 35);
+            this.buttonBuild.Size = new System.Drawing.Size(111, 23);
             this.buttonBuild.TabIndex = 0;
             this.buttonBuild.Text = "Построить";
             this.buttonBuild.UseVisualStyleBackColor = true;
@@ -272,10 +253,9 @@
             // 
             // buttonInfo
             // 
-            this.buttonInfo.Location = new System.Drawing.Point(180, 5);
-            this.buttonInfo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonInfo.Location = new System.Drawing.Point(120, 3);
             this.buttonInfo.Name = "buttonInfo";
-            this.buttonInfo.Size = new System.Drawing.Size(168, 35);
+            this.buttonInfo.Size = new System.Drawing.Size(112, 23);
             this.buttonInfo.TabIndex = 1;
             this.buttonInfo.Text = "Подробнее";
             this.buttonInfo.UseVisualStyleBackColor = true;
@@ -286,11 +266,9 @@
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBoxDependentParameters);
             this.groupBox1.Controls.Add(this.groupBoxIndependentParameters);
-            this.groupBox1.Location = new System.Drawing.Point(18, 18);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(392, 645);
+            this.groupBox1.Size = new System.Drawing.Size(261, 419);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ввод параметров";
@@ -298,11 +276,9 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.panel1);
-            this.groupBox4.Location = new System.Drawing.Point(9, 543);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox4.Location = new System.Drawing.Point(6, 353);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox4.Size = new System.Drawing.Size(374, 91);
+            this.groupBox4.Size = new System.Drawing.Size(249, 59);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Тип лестницы";
@@ -310,10 +286,9 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.ComboBoxLadderType);
-            this.panel1.Location = new System.Drawing.Point(9, 31);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panel1.Location = new System.Drawing.Point(6, 20);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(352, 48);
+            this.panel1.Size = new System.Drawing.Size(235, 31);
             this.panel1.TabIndex = 0;
             // 
             // ComboBoxLadderType
@@ -323,20 +298,17 @@
             this.ComboBoxLadderType.Items.AddRange(new object[] {
             "Обычная",
             "Стремянка"});
-            this.ComboBoxLadderType.Location = new System.Drawing.Point(4, 5);
-            this.ComboBoxLadderType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ComboBoxLadderType.Location = new System.Drawing.Point(3, 3);
             this.ComboBoxLadderType.Name = "ComboBoxLadderType";
-            this.ComboBoxLadderType.Size = new System.Drawing.Size(342, 28);
+            this.ComboBoxLadderType.Size = new System.Drawing.Size(229, 21);
             this.ComboBoxLadderType.TabIndex = 0;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.tableLayoutPanel3);
-            this.groupBox2.Location = new System.Drawing.Point(20, 672);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Location = new System.Drawing.Point(13, 437);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(390, 89);
+            this.groupBox2.Size = new System.Drawing.Size(260, 58);
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Действия";
@@ -344,26 +316,23 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.pictureBox1);
-            this.groupBox3.Location = new System.Drawing.Point(420, 20);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox3.Location = new System.Drawing.Point(280, 13);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox3.Size = new System.Drawing.Size(328, 742);
+            this.groupBox3.Size = new System.Drawing.Size(219, 482);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Информация об объекте";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 771);
+            this.ClientSize = new System.Drawing.Size(503, 501);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Плагин \"Лестница\" КОМПАС 3Д";

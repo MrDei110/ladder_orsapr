@@ -52,17 +52,14 @@ namespace LadderPlugin
             string text)
         {
             textBox.BackColor = whatColor;
-            if (whatColor == SystemColors.Window)
-            {
-                var message = textBox.Text != string.Empty
+            var message = textBox.Text != string.Empty
                     ? "Доступны только целочисленные значения"
                     : text;
-                this.toolTipWarner.SetToolTip(textBox, message);
-                textBox.Text = string.Empty;
-            }
-            else
+            this.toolTipWarner.SetToolTip(textBox, message);
+
+            if (whatColor == SystemColors.Window)
             {
-                this.toolTipWarner.SetToolTip(textBox, text);
+                textBox.Text = string.Empty;
             }
         }
 
