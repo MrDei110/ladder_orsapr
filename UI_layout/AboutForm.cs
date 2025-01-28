@@ -16,7 +16,6 @@ namespace UI_layout
     /// </summary>
     public partial class AboutForm : Form
     {
-        //TODO:XML+
         /// <summary>
         /// Инициализация компонентов справочного окна.
         /// </summary>
