@@ -73,8 +73,6 @@ namespace LadderPlugin
             System.Windows.Forms.TextBox textBox,
             ParameterType parameterType)
         {
-            //TODO: mistype +
-            //TODO: FormatException +
             try
             {
                 this._parameters.SetParameter(parameterType, int.Parse(textBox.Text));
