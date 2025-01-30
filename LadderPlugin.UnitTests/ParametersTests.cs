@@ -79,7 +79,7 @@ namespace LadderPlugin.UnitTests
             parameters.SetParameter(ParameterType.MaterialThickness, 30);
             parameters.SetParameter(ParameterType.StepsAmount, 2);
             parameters.SetParameter(ParameterType.StepsSpacing, 300);
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ParametersException>(
             () => { parameters.SetParameter(parameterType, wrongArgument); },
             message);
         }

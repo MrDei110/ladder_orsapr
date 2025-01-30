@@ -73,7 +73,7 @@ namespace LadderPlugin.UnitTests
             TestName = "Значение за граничными пределами")]
         public void TestSetArgumentException(int wrongValue, string message)
         {
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ValueException>(
             () => { this._parameter.Value = wrongValue; },
             message);
         }
